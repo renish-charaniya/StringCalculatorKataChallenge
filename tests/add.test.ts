@@ -23,4 +23,30 @@ describe('String Calculator', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('100,33,44')).toBe(177);
   });
+
+  test('Should handle new lines between numbers (instead of commas)', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('1\n2,3')).toBe(6);
+  });
+
+  test('Should handle custom delimiters', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('//;\n1;2')).toBe(3);
+  });
+
+  test('Should throw an error for negative numbers', () => {
+    const calculator = new StringCalculator();
+
+    expect(() => calculator.add('1,-2,3')).toThrow(
+      'Negative numbers not allowed: -2',
+    );
+  });
+
+  test('Should include all negative numbers in the error message', () => {
+    const calculator = new StringCalculator();
+
+    expect(() => calculator.add('-1,-2,3')).toThrow(
+      'Negative numbers are not allowed: -1, -2',
+    );
+  });
 });
