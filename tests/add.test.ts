@@ -32,6 +32,7 @@ describe('String Calculator', () => {
   test('Should handle custom delimiters', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//;\n1;2')).toBe(3);
+    expect(calculator.add('//;\n1;2')).toBe(3);
   });
 
   test('Should throw an error for negative numbers', () => {
