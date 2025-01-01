@@ -1,6 +1,6 @@
 import { StringCalculator } from '../src/add';
 
-describe('String Calculator', () => {
+describe('String Calculator Milestone 1', () => {
   test('Should return Zero(0) for empty string input', () => {
     const calculator = new StringCalculator();
     const result = calculator.add('');
@@ -49,5 +49,17 @@ describe('String Calculator', () => {
     expect(() => calculator.add('-1,-2,3')).toThrow(
       'Negative numbers are not allowed: -1, -2',
     );
+  });
+});
+
+describe('String Calculator Milestone 2', () => {
+  test('Should be able to handle delimiters of any length', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('//[***]\n1***4***3')).toBe(8);
+  });
+
+  test('Should allow multiple delimiters', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
   });
 });
