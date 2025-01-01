@@ -39,7 +39,7 @@ describe('String Calculator', () => {
     const calculator = new StringCalculator();
 
     expect(() => calculator.add('1,-2,3')).toThrow(
-      'Negative numbers not allowed: -2',
+      'Negative numbers are not allowed: -2',
     );
   });
 
