@@ -22,6 +22,7 @@ describe('String Calculator Milestone 1', () => {
   test('Should return sum of all the numbers', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('100,33,44')).toBe(177);
+    expect(calculator.add('100,100,44')).toBe(244);
   });
 
   test('Should handle new lines between numbers (instead of commas)', () => {
@@ -65,6 +66,7 @@ describe('String Calculator Milestone 2', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
     expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
+    expect(calculator.add('//[*))][%]\n1*))2%6')).toBe(9);
   });
   test('Should handle multiple delimiters longer than one char', () => {
     const calculator = new StringCalculator();
