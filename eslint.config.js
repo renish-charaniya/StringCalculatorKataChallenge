@@ -11,7 +11,7 @@ export default [
         ignores: ["node_modules/", "dist/", "build/"],
     },
     {
-        files: ["**/*.ts", "**/*.tsx"], // Apply this config to TypeScript files
+        files: ["**/*.ts", "**/*.tsx"],
         languageOptions: {
             parser: typescriptEslintParser,
             parserOptions: {
@@ -35,16 +35,8 @@ export default [
             ],
             "@typescript-eslint/explicit-function-return-type": "off",
             "@typescript-eslint/no-explicit-any": "off",
-            // "@typescript-eslint/ban-types": [
-            //     "error",
-            //     {
-            //         types: {
-            //             "{}": false,
-            //         },
-            //     },
-            // ],
             "@typescript-eslint/ban-ts-comment": "warn",
-            "import/no-unresolved": "error", // Example of import plugin rule
+            "import/no-unresolved": "error",
             "import-helpers/order-imports": [
                 "warn",
                 {
@@ -60,12 +52,12 @@ export default [
                     ],
                 },
             ],
-            "node/no-missing-import": "error", // Example of node plugin rule
-            "promise/always-return": "warn", // Example of promise plugin rule
+            "node/no-missing-import": "error",
+            "promise/always-return": "warn",
         },
     },
     {
-        files: ["**/*.js"], // Apply to JavaScript files
+        files: ["**/*.js"],
         languageOptions: {
             ecmaVersion: 2016,
             sourceType: "module",
@@ -78,8 +70,8 @@ export default [
             prettier: eslintPluginPrettier,
         },
         rules: {
-            "prettier/prettier": "error", // Include Prettier for JS files if needed
-            "import/no-unresolved": "error", // Example of import plugin rule
+            "prettier/prettier": "error",
+            "import/no-unresolved": "error",
             "import-helpers/order-imports": [
                 "warn",
                 {
@@ -95,8 +87,8 @@ export default [
                     ],
                 },
             ],
-            "node/no-missing-import": "error", // Example of node plugin rule
-            "promise/always-return": "warn", // Example of promise plugin rule
+            "node/no-missing-import": "error",
+            "promise/always-return": "warn",
         },
     },
 ];
