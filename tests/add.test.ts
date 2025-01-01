@@ -73,6 +73,6 @@ describe('String Calculator Milestone 2', () => {
     expect(calculator.add('//[**][%%]\n1**2%%6')).toBe(9);
     expect(calculator.add('//[**]\n1**2**3')).toBe(6);
     expect(calculator.add('//[..][%%]\n1..2%%11')).toBe(14);
-    expect(calculator.add('//[..][%%]\n1..2%%199x9')).toBe(2002);
+    expect(calculator.add('//[..][%%]\n1..2%%1999')).toBe(2002);
   });
 });
