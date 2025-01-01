@@ -13,10 +13,24 @@ export class StringCalculator {
         customDelimiterMatch[0].length,
       );
     }
+
     const delimiterRegex = new RegExp(`[${delimiters.join('')}]`);
+    const negativeNumbers = new Array<number>();
     const numArray = numbersWithoutCustomDelimiters
       .split(delimiterRegex)
-      .map((num) => parseInt(num));
+      .map((num) => {
+        const parsedNum = parseInt(num);
+        if (parsedNum < 0) {
+          negativeNumbers.push(parsedNum);
+        }
+        return parsedNum;
+      });
+
+    if (negativeNumbers.length) {
+      throw new Error(
+        `Negative numbers are not allowed: ${negativeNumbers.join(', ')}`,
+      );
+    }
 
     return numArray.reduce((sum, num) => sum + num);
   }
