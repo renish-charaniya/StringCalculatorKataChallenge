@@ -57,10 +57,14 @@ make sure you can also handle multiple delimiters with length longer than one ch
 
 ## Features
 
-- Supports multiple delimiters, including single-character (`;`, `,`, etc.) and multi-character delimiters (`***`, `[***]`, etc.).
-- Ignores invalid numbers by treating them as `0`.
-- Throws an error if negative numbers are present in the input.
-- Handles empty strings and returns `0` for no numbers.
+- [x] Supports multiple delimiters, including single-character (`;`, `,`, etc.) and multi-character delimiters (`***`, `[***]`, etc.).
+- [x] Ignores invalid numbers by treating them as `0`.
+- [x] Throws an error if negative numbers are present in the input.
+- [x] Handles empty strings and returns `0` for no numbers.
+- [x] CI/CD Configuration
+- [x] **Linting**: with [ESLint](https://eslint.org) and [Prettier](https://prettier.io)
+- [ ] Add yargs support to test different input strings   
+- [ ] Add git hooks.
   
 ## Problem Description
 
