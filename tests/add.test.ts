@@ -22,6 +22,7 @@ describe('String Calculator Milestone 1', () => {
   test('Should return sum of all the numbers', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('100,33,44')).toBe(177);
+    expect(calculator.add('100,100,44')).toBe(244);
   });
 
   test('Should handle new lines between numbers (instead of commas)', () => {
