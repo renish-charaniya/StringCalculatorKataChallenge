@@ -65,6 +65,7 @@ describe('String Calculator Milestone 2', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
     expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
+    expect(calculator.add('//[*))][%]\n1*))2%6')).toBe(9);
   });
   test('Should handle multiple delimiters longer than one char', () => {
     const calculator = new StringCalculator();
