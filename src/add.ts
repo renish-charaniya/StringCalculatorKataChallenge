@@ -1,52 +1,75 @@
 export class StringCalculator {
-  add(numbers: string): number {
-    if (numbers === '') {
+  add(input: string): number {
+    if (input === '') {
       return 0;
     }
 
-    const delimiters = [',', '\n'];
-    const customDelimiterMatch = numbers.match(/^\/\/(.+)\n/);
-    let numbersWithoutCustomDelimiters = numbers;
+    const delimiters = this.getDelimiter(input);
+    const parsableNumbers = this.removeDelimiterDeclaration(input);
+    const numbers = this.getNumbers(parsableNumbers, delimiters);
 
-    if (customDelimiterMatch) {
-      const customDelimiter = customDelimiterMatch[1];
-      if (customDelimiter.startsWith('[') && customDelimiter.endsWith(']')) {
-        const multipleDelimiters = customDelimiter
-          .slice(1, -1)
-          .split('][')
-          .map(this.escapeRegex);
-        delimiters.push(...multipleDelimiters);
-      } else {
-        delimiters.push(this.escapeRegex(customDelimiter));
+    return this.calculateSum(numbers);
+  }
+
+  private getDelimiter(input: string): RegExp {
+    const delimiters: string[] = [];
+    const multipleDelimiterRegexp = /(?:^\/\/)?\[([^\[\]]+)\]/g;
+    const singleDelimiterRegexp = /^\/\/(.+)\n/;
+
+    const matches = input.matchAll(multipleDelimiterRegexp);
+    for (const match of matches) {
+      delimiters.push(this.escapeRegex(match[1]));
+    }
+
+    if (delimiters.length > 0) {
+      return new RegExp(delimiters.join('|'));
+    }
+
+    const singleMatch = input.match(singleDelimiterRegexp);
+    if (singleMatch && singleMatch[1]) {
+      delimiters.push(this.escapeRegex(singleMatch[1]));
+    }
+
+    if (delimiters.length === 0) {
+      return /,|\n/;
+    }
+
+    return new RegExp(delimiters.join('|'));
+  }
+
+  private removeDelimiterDeclaration(input: string): string {
+    const delimiterRegExp = /^(\/\/.*\n)/;
+    return input.replace(delimiterRegExp, '');
+  }
+
+  private getNumbers(input: string, delimiter: RegExp): number[] {
+    return input
+      .split(delimiter)
+      .filter((n) => n !== '')
+      .map((n) => parseInt(n, 10));
+  }
+
+  private calculateSum(numbers: number[]): number {
+    const negatives: number[] = [];
+    const finalSum = numbers.reduce((sum, n) => {
+      if (n < 0) {
+        negatives.push(n);
+        return sum;
       }
-      numbersWithoutCustomDelimiters = numbers.slice(
-        customDelimiterMatch[0].length,
-      );
-    }
+      return sum + n;
+    }, 0);
 
-    const delimiterRegex = new RegExp(delimiters.join('|'));
-    const negativeNumbers: number[] = [];
-    const numArray = numbersWithoutCustomDelimiters
-      .split(delimiterRegex)
-      .map((num) => {
-        const parsedNum = parseInt(num, 10);
-        if (parsedNum < 0) {
-          negativeNumbers.push(parsedNum);
-        }
-        return parsedNum;
-      });
-
-    if (negativeNumbers.length) {
+    if (negatives.length > 0) {
       throw new Error(
-        `Negative numbers are not allowed: ${negativeNumbers.join(', ')}`,
+        `Negative numbers are not allowed: ${negatives.join(', ')}`,
       );
     }
 
-    return numArray.reduce((sum, num) => sum + num, 0);
+    return finalSum;
   }
 
   private escapeRegex(delimiter: string): string {
-    // Src - https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/63838890#63838890
+    // Escapes special regex characters
     return delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 }
