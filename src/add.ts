@@ -4,22 +4,32 @@ export class StringCalculator {
       return 0;
     }
 
-    const delimiters = new Array<string>(',', '\n');
+    const delimiters = [',', '\n'];
     const customDelimiterMatch = numbers.match(/^\/\/(.+)\n/);
     let numbersWithoutCustomDelimiters = numbers;
+
     if (customDelimiterMatch) {
-      delimiters.push(customDelimiterMatch[1]);
+      const customDelimiter = customDelimiterMatch[1];
+      if (customDelimiter.startsWith('[') && customDelimiter.endsWith(']')) {
+        const multipleDelimiters = customDelimiter
+          .slice(1, -1)
+          .split('][')
+          .map(this.escapeRegex);
+        delimiters.push(...multipleDelimiters);
+      } else {
+        delimiters.push(this.escapeRegex(customDelimiter));
+      }
       numbersWithoutCustomDelimiters = numbers.slice(
         customDelimiterMatch[0].length,
       );
     }
 
-    const delimiterRegex = new RegExp(`[${delimiters.join('')}]`);
-    const negativeNumbers = new Array<number>();
+    const delimiterRegex = new RegExp(delimiters.join('|'));
+    const negativeNumbers: number[] = [];
     const numArray = numbersWithoutCustomDelimiters
       .split(delimiterRegex)
       .map((num) => {
-        const parsedNum = parseInt(num);
+        const parsedNum = parseInt(num, 10);
         if (parsedNum < 0) {
           negativeNumbers.push(parsedNum);
         }
@@ -32,6 +42,11 @@ export class StringCalculator {
       );
     }
 
-    return numArray.reduce((sum, num) => sum + num);
+    return numArray.reduce((sum, num) => sum + num, 0);
+  }
+
+  private escapeRegex(delimiter: string): string {
+    // Src - https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/63838890#63838890
+    return delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 }

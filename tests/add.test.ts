@@ -32,7 +32,8 @@ describe('String Calculator Milestone 1', () => {
   test('Should handle custom delimiters', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//;\n1;2')).toBe(3);
-    expect(calculator.add('//;\n1;2')).toBe(3);
+    expect(calculator.add('//&\n1&2')).toBe(3);
+    expect(calculator.add('//-\n1-2')).toBe(3);
   });
 
   test('Should throw an error for negative numbers', () => {
@@ -56,10 +57,19 @@ describe('String Calculator Milestone 2', () => {
   test('Should be able to handle delimiters of any length', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//[***]\n1***4***3')).toBe(8);
+    expect(calculator.add('//[---]\n1---4---3')).toBe(8);
   });
 
   test('Should allow multiple delimiters', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
+    expect(calculator.add('//[*][%]\n1*2%6')).toBe(9);
+  });
+  test('Should handle multiple delimiters longer than one char', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('//[**][%%]\n1**2%%6')).toBe(9);
+    expect(calculator.add('//[**]\n1**2**3')).toBe(6);
+    expect(calculator.add('//[..][%%]\n1..2%%11')).toBe(14);
+    expect(calculator.add('//[..][%%]\n1..2%%1999')).toBe(2002);
   });
 });
