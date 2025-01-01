@@ -58,6 +58,7 @@ describe('String Calculator Milestone 2', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//[***]\n1***4***3')).toBe(8);
     expect(calculator.add('//[---]\n1---4---3')).toBe(8);
+    expect(calculator.add('//[<<]\n1<<4<<3')).toBe(8);
   });
 
   test('Should allow multiple delimiters', () => {
