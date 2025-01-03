@@ -8,7 +8,7 @@ export class StringCalculator {
     const parsableNumbers = this.removeDelimiterDeclaration(input);
     const numbers = this.getNumbers(parsableNumbers, delimiters);
 
-    return this.calculateSum(numbers);
+    return this.performOperation(numbers, delimiters);
   }
 
   private getDelimiter(input: string): RegExp {
@@ -27,6 +27,7 @@ export class StringCalculator {
 
     const singleMatch = input.match(singleDelimiterRegexp);
     if (singleMatch && singleMatch[1]) {
+      // TODO check if delimiter is *
       delimiters.push(this.escapeRegex(singleMatch[1]));
     }
 
@@ -49,15 +50,20 @@ export class StringCalculator {
       .map((n) => parseInt(n, 10));
   }
 
-  private calculateSum(numbers: number[]): number {
+  private performOperation(numbers: number[], delimiters: RegExp): number {
     const negatives: number[] = [];
-    const finalSum = numbers.reduce((sum, n) => {
+
+    // Determine the operation based on the delimiter
+    const isMultiplication = delimiters.source === '\\*';
+    const initialValue = isMultiplication ? 1 : 0;
+
+    const result = numbers.reduce((accumulator, n) => {
       if (n < 0) {
         negatives.push(n);
-        return sum;
+        return accumulator;
       }
-      return sum + n;
-    }, 0);
+      return isMultiplication ? accumulator * n : accumulator + n;
+    }, initialValue);
 
     if (negatives.length > 0) {
       throw new Error(
@@ -65,7 +71,7 @@ export class StringCalculator {
       );
     }
 
-    return finalSum;
+    return result;
   }
 
   private escapeRegex(delimiter: string): string {
