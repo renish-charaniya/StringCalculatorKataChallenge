@@ -52,31 +52,18 @@ export class StringCalculator {
 
   private performOperation(numbers: number[], delimiters: RegExp): number {
     const negatives: number[] = [];
-    if (delimiters.source === '\\*') {
-      const finalresult = numbers.reduce((mul, n) => {
-        if (n < 0) {
-          negatives.push(n);
-          return mul;
-        }
-        return mul * n;
-      }, 1);
 
-      if (negatives.length > 0) {
-        throw new Error(
-          `Negative numbers are not allowed: ${negatives.join(', ')}`,
-        );
-      }
+    // Determine the operation based on the delimiter
+    const isMultiplication = delimiters.source === '\\*';
+    const initialValue = isMultiplication ? 1 : 0;
 
-      return finalresult;
-    }
-
-    const finalSum = numbers.reduce((sum, n) => {
+    const result = numbers.reduce((accumulator, n) => {
       if (n < 0) {
         negatives.push(n);
-        return sum;
+        return accumulator;
       }
-      return sum + n;
-    }, 0);
+      return isMultiplication ? accumulator * n : accumulator + n;
+    }, initialValue);
 
     if (negatives.length > 0) {
       throw new Error(
@@ -84,7 +71,7 @@ export class StringCalculator {
       );
     }
 
-    return finalSum;
+    return result;
   }
 
   private escapeRegex(delimiter: string): string {
